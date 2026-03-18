@@ -1,0 +1,17 @@
+name: example
+description: An example demonstrating how to use barrier_free_navigation
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  barrier_free_navigation:
+    path: ../
+
+dev_dependencies:
+  flutter_lints: ^3.0.0

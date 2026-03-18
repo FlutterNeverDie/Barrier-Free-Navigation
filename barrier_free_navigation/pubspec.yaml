@@ -1,0 +1,18 @@
+name: barrier_free_navigation
+description: A highly customizable 3-tier Barrier-Free keyboard navigation package for Flutter. 
+version: 1.0.0
+homepage: https://github.com/FlutterNeverDie/Barrier-Free-Navigation
+repository: https://github.com/FlutterNeverDie/Barrier-Free-Navigation
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
