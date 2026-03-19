@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import '../manager/barrier_free_manager.dart';
 
+/// 여러 개의 포커스 아이템을 하나로 묶어주는 영역(그룹) 단위 위젯입니다.
+/// A widget that groups multiple focus items into a single area unit.
 class BFAreaFocusGroup extends StatefulWidget {
-  /// 자식 위젯
+  /// 그룹 내부에 렌더링될 하위 위젯
+  /// The child widget to be rendered inside the group
   final Widget child;
 
-  /// 영역 포커스용 FocusNode
+  /// 본 영역(그룹)이 포커스를 얻었는지 판별하기 위한 FocusNode
+  /// FocusNode to determine if this area (group) has gained focus
   final FocusNode focusNode;
 
-  /// TTS로 재생할 메시지
+  /// 이 그룹에 포커스가 도착했을 때 TTS로 읽어줄 메시지
+  /// Message to be read by TTS when focus reaches this group
   final String? ttsMsg;
 
-  /// 단일 자식 여부
+  /// 그룹 내에 포커스를 받을 수 있는 자식이 단 하나뿐인지 여부
+  /// (true면 그룹이 포커스를 얻자마자 그 단일 자식에게 즉시 포커스를 넘깁니다.)
+  /// Whether there is only a single focusable child within the group
+  /// (If true, passes focus immediately to the single child upon gaining area focus.)
   final bool isSingleChild;
 
   const BFAreaFocusGroup({

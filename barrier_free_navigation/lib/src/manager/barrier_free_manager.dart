@@ -4,6 +4,8 @@ import '../models/barrier_free_delegate.dart';
 import '../models/bf_keyboard_config.dart';
 import '../models/focus_group_config.dart';
 
+/// 배리어프리 네비게이션을 중앙 제어하는 싱글톤 매니저
+/// A singleton manager that centrally controls barrier-free navigation
 class BarrierFreeManager {
   static final BarrierFreeManager instance = BarrierFreeManager._();
   BarrierFreeManager._();
@@ -16,6 +18,8 @@ class BarrierFreeManager {
   int _currentGroupIndex = 0;
   bool _isInitialized = false;
 
+  /// 매니저 초기화. 구성 요소 및 콜백을 등록합니다.
+  /// Initializes the manager. Registers configurations and callbacks.
   void initialize({
     required BarrierFreeDelegate delegate,
     required BFKeyboardConfig config,
@@ -33,29 +37,37 @@ class BarrierFreeManager {
     _isInitialized = true;
   }
 
-  /// 키보드 설정 정보
+  /// 등록된 키보드 설정 정보
+  /// Registered keyboard configuration
   BFKeyboardConfig? get config => _config;
 
-  /// 배리어프리 관련 Delegate 기능들
+  /// TTS를 통한 음성 출력 요청
+  /// Request voice output via TTS
   void speak(String text, {bool isFilter = false}) {
     if (_delegate?.isVoiceGuideEnabled == true) {
       _delegate?.speak(text, isFilter: isFilter);
     }
   }
 
+  /// 클릭 효과음 재생 요청
+  /// Request to play click sound effect
   void playClickSound() {
     _delegate?.playClickSound();
   }
 
+  /// 배리어프리 모드 활성화 여부
+  /// Whether barrier-free mode is enabled
   bool get isBarrierFreeModeEnabled =>
       _delegate?.isBarrierFreeModeEnabled ?? false;
 
-  /// 포커스 영역(그룹) 등록을 위한 스택 관리
+  /// 특정 라우트(화면)에 대한 포커스 그룹 목록을 등록 및 스택에 푸시
+  /// Register focus group list for a specific route (screen) and push to the stack
   void registerFocusGroups(String routeName, List<FocusGroupConfig> configs) {
     if (configs.isEmpty) return;
     _focusGroupConfigMap[routeName] = configs;
 
-    // Stack의 최상단으로 관리하기 위해 기존에 있으면 제거
+    // 스택의 최상단에서 관리하기 위해 기존 항목이 있다면 제거
+    // Remove if it exists to manage it at the top of the stack
     if (_focusKeyStack.contains(routeName)) {
       _focusKeyStack.remove(routeName);
     }
@@ -63,13 +75,16 @@ class BarrierFreeManager {
     _currentGroupIndex = 0;
   }
 
+  /// 특정 라우트(화면)에 대한 포커스 그룹 목록을 해제
+  /// Unregister focus group list for a specific route
   void unregisterFocusGroups(String routeName) {
     _focusGroupConfigMap.remove(routeName);
     _focusKeyStack.remove(routeName);
     _currentGroupIndex = 0;
   }
 
-  /// Keyboard Handler 전역 이벤트
+  /// 전역 키보드 이벤트 핸들러
+  /// Global keyboard event handler
   bool handleKeyEvent(KeyEvent event) {
     if (!_isInitialized || _config == null) return false;
 
@@ -78,12 +93,14 @@ class BarrierFreeManager {
     final key = event.physicalKey;
 
     // 1. 앱 전역의 커스텀 단축키가 먼저 처리되는지 확인
+    // 1. Check if the app-wide custom shortcut is handled first
     if (_config!.onCustomAppKeyEvent != null) {
       final isHandled = _config!.onCustomAppKeyEvent!(key);
       if (isHandled) return true;
     }
 
-    // 2. 방향키 이동 처리 (그룹 및 아이템)
+    // 2. 방향키 이동 및 기타 커스텀 키 동작 처리
+    // 2. Handle directional key movements and other custom key actions
     if (key == _config!.groupUpKey) {
       _moveToGroup(isUpward: true);
       return true;
@@ -110,10 +127,13 @@ class BarrierFreeManager {
       return true;
     }
 
-    // 3. 엔터 키 등은 native flutter tap이 핸들링하도록 위임
+    // 3. 엔터 키 등은 Flutter 네이티브 동작에 위임
+    // 3. Delegate enter key, etc., to Flutter's native behaviors
     return false;
   }
 
+  /// 동일 그룹 내 좌/우(이전/다음) 위젯으로 포커스 이동
+  /// Move focus to left/right (previous/next) widget within the same group
   void _moveToWidget({required bool isRight}) {
     final currentFocus = FocusManager.instance.primaryFocus;
     if (currentFocus == null) return;
@@ -125,6 +145,8 @@ class BarrierFreeManager {
     }
   }
 
+  /// 상/하 구역(그룹)으로 포커스 크게 점프
+  /// Jump focus widely to the UP/DOWN zone (group)
   void _moveToGroup({required bool isUpward}) {
     final configs = _currentFocusGroupConfigs;
     if (configs == null || configs.isEmpty) return;
@@ -141,7 +163,8 @@ class BarrierFreeManager {
     final currentConfig = configs[_currentGroupIndex];
     currentConfig.focusNode.requestFocus();
 
-    // 단일 자식 위젯이면 자동으로 그 하위 위젯 탭으로 포커스
+    // 단일 자식 위젯이면 자동으로 그 하위 위젯 탭으로 포커스 진입
+    // If it's a single-child widget, automatically focus on its descendant
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (currentConfig.isSingleChild) {
         _moveToFirstFocusableInGroup();
@@ -149,12 +172,16 @@ class BarrierFreeManager {
     });
   }
 
+  /// 현재 최상위 화면(Route)의 그룹 설정값 목록 조회
+  /// Get the group configurations of the current top-most screen (Route)
   List<FocusGroupConfig>? get _currentFocusGroupConfigs {
     if (_focusKeyStack.isEmpty) return null;
     final activeKey = _focusKeyStack.last;
     return _focusGroupConfigMap[activeKey];
   }
 
+  /// 사용자가 마우스나 터치 등으로 포커스를 변경했을 때, 현재 선택된 포커스의 부모 그룹 인덱스를 동기화
+  /// Sync the parent group index of the currently selected focus when the user changes focus via mouse or touch
   void _syncGroupIndexWithCurrentFocus() {
     final currentFocus = FocusManager.instance.primaryFocus;
     final configs = _currentFocusGroupConfigs;
@@ -172,6 +199,8 @@ class BarrierFreeManager {
     }
   }
 
+  /// currentFocus가 groupNode의 하위 위젯인지 확인
+  /// Check if currentFocus is a descendant of groupNode
   bool _isDescendantOf(FocusNode currentFocus, FocusNode groupNode) {
     FocusNode? parent = currentFocus.parent;
     while (parent != null) {
@@ -181,6 +210,8 @@ class BarrierFreeManager {
     return false;
   }
 
+  /// 그룹 내의 첫 번째 활성화 요소로 즉시 포커스 이동 (단일 자식 그룹 등에서 사용)
+  /// Move focus immediately to the first focusable element in the group (used for single-child groups)
   void _moveToFirstFocusableInGroup() {
     final currentFocus = FocusManager.instance.primaryFocus;
     if (currentFocus != null) {

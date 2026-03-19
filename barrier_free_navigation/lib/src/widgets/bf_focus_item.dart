@@ -2,29 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../manager/barrier_free_manager.dart';
 
+/// 개별적으로 포커스를 받을 수 있는 최소 단위의 상호작용 위젯입니다.
+/// 버튼, 리스트 아이템 등 실제 선택 가능한 요소를 감싸는 데 사용됩니다.
+/// A minimum interactive widget unit that can individually receive focus.
+/// Used to wrap actual selectable elements like buttons or list items.
 class BFFocusItem extends StatefulWidget {
-  /// 자식 위젯
+  /// 렌더링될 실제 UI 자식 위젯
+  /// The actual UI child widget to be rendered
   final Widget child;
 
-  /// TTS로 재생할 메시지
+  /// 해당 아이템이 포커스를 받았을 때 TTS로 읽어줄 메시지
+  /// Message to be read by TTS when this item receives focus
   final String? ttsMsg;
 
-  /// 탭 또는 엔터 키 이벤트 시 실행할 콜백
+  /// 사용자가 확인(Enter) 버튼 등 특정 동작 키를 눌렀을 때 실행될 콜백
+  /// Callback executed when the user presses an action key like Confirm (Enter)
   final VoidCallback? onTap;
 
-  /// TTS 필터링 여부
+  /// 같은 TTS 메시지를 반복 중복해서 읽지 않도록 필터링할지 여부
+  /// Whether to filter TTS so that the exact same message is not read repeatedly
   final bool isFilterTts;
 
-  /// 자동 포커스 여부
+  /// 화면 또는 그룹 진입 시 이 아이템에 자동으로 포커스를 줄지 여부
+  /// Whether to automatically focus this item when entering the screen or group
   final bool autoFocus;
 
-  /// 잉크 효과의 테두리 반경
+  /// 탭할 때 나타나는 기본 물결(Ink) 효과의 모서리 반경
+  /// Border radius of the default Ink ripple effect shown on tap
   final double inkBorderRadius;
 
-  /// 포커스 상태 변화 콜백
+  /// 포커스 획득/상실 상태가 변경될 때 호출되는 콜백 (true: 포커스 획득, false: 상실)
+  /// Callback invoked when focus state changes (true: gained focus, false: lost focus)
   final Function(bool)? onFocusChange;
 
+  /// 아이템 배경 장식 (BoxDecoration 등)
+  /// Background decoration for the item (e.g., BoxDecoration)
   final Decoration decoration;
+  
+  /// 아이템의 고정 높이
+  /// Fixed height of the item
   final double? height;
 
   const BFFocusItem({

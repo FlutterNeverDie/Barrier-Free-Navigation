@@ -4,9 +4,19 @@ import '../models/focus_group_config.dart';
 
 /// 화면(Route) 단위로 포커스 그룹 배열을
 /// `BarrierFreeManager`에 자동으로 달고 해제(register/unregister)해주는 위젯입니다.
+/// A widget that automatically registers and unregisters an array of focus groups
+/// to the `BarrierFreeManager` on a per-screen (Route) basis.
 class BFFocusCoordinator extends StatefulWidget {
+  /// 현재 라우트(화면)의 고유 이름
+  /// Unique name of the current route (screen)
   final String routeName;
+
+  /// 화면에 표시될 자식 위젯
+  /// The child widget to be displayed on the screen
   final Widget child;
+
+  /// 이 화면에서 관리할 포커스 그룹 설정 목록
+  /// List of focus group configurations to be managed in this screen
   final List<FocusGroupConfig> focusGroups;
 
   const BFFocusCoordinator({
