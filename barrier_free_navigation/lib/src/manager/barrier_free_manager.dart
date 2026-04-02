@@ -6,7 +6,7 @@ import '../models/focus_group_config.dart';
 
 /// 배리어프리 네비게이션을 중앙 제어하는 싱글톤 매니저
 /// A singleton manager that centrally controls barrier-free navigation
-class BarrierFreeManager {
+class BarrierFreeManager with ChangeNotifier {
   static final BarrierFreeManager instance = BarrierFreeManager._();
   BarrierFreeManager._();
 
@@ -35,11 +35,37 @@ class BarrierFreeManager {
     });
 
     _isInitialized = true;
+    notifyListeners();
   }
 
   /// 등록된 키보드 설정 정보
   /// Registered keyboard configuration
   BFKeyboardConfig? get config => _config;
+
+  /// 현재 활성화된(스택 가장 위에 있는) 라우트 이름을 반환합니다.
+  /// 네비게이션 스택이 비어있으면 null을 반환합니다.
+  String? get currentRouteName =>
+      _focusKeyStack.isNotEmpty ? _focusKeyStack.last : null;
+
+  /// 현재 선택된 포커스 그룹의 인덱스를 반환합니다.
+  /// Returns the current group index.
+  int get currentGroupIndex => _currentGroupIndex;
+
+  /// 매니저의 초기화 여부를 반환합니다.
+  /// Returns whether the manager is initialized.
+  bool get isInitialized => _isInitialized;
+
+  /// 음성 안내 기능의 활성화 여부를 반환합니다.
+  /// Returns whether the voice guide (TTS) feature is enabled.
+  bool get isVoiceGuideEnabled => _delegate?.isVoiceGuideEnabled ?? false;
+
+  /// 현재 화면의 포커스 그룹 설정 목록을 반환합니다.
+  /// Returns the current focus group configurations.
+  List<FocusGroupConfig>? get currentFocusGroups => _currentFocusGroupConfigs;
+
+  /// 현재 관리되고 있는 라우트 네임 스택 (읽기 전용)
+  /// Current managed route name stack (read-only)
+  List<String> get focusKeyStack => List.unmodifiable(_focusKeyStack);
 
   /// TTS를 통한 음성 출력 요청
   /// Request voice output via TTS
@@ -73,6 +99,12 @@ class BarrierFreeManager {
     }
     _focusKeyStack.add(routeName);
     _currentGroupIndex = 0;
+
+    if (_delegate?.isDebugEnabled == true) {
+      debugPrint('[BarrierFreeManager] Route registered: $routeName');
+    }
+
+    notifyListeners();
   }
 
   /// 특정 라우트(화면)에 대한 포커스 그룹 목록을 해제
@@ -81,6 +113,12 @@ class BarrierFreeManager {
     _focusGroupConfigMap.remove(routeName);
     _focusKeyStack.remove(routeName);
     _currentGroupIndex = 0;
+
+    if (_delegate?.isDebugEnabled == true) {
+      debugPrint('[BarrierFreeManager] Route unregistered: $routeName');
+    }
+
+    notifyListeners();
   }
 
   /// 전역 키보드 이벤트 핸들러
@@ -159,6 +197,7 @@ class BarrierFreeManager {
     } else {
       _currentGroupIndex = (_currentGroupIndex + 1) % configs.length;
     }
+    notifyListeners();
 
     final currentConfig = configs[_currentGroupIndex];
     currentConfig.focusNode.requestFocus();
@@ -193,6 +232,7 @@ class BarrierFreeManager {
           _isDescendantOf(currentFocus, groupNode)) {
         if (_currentGroupIndex != i) {
           _currentGroupIndex = i;
+          notifyListeners();
         }
         return;
       }

@@ -17,6 +17,10 @@ abstract class BarrierFreeDelegate {
   /// Returns whether the entire barrier-free mode is enabled.
   bool get isBarrierFreeModeEnabled;
 
+  /// 디버깅 메시지 출력 여부. 기본값은 true입니다.
+  /// Whether to output debugging messages. Defaults to true.
+  bool get isDebugEnabled => true;
+
   /// 음량 상승 이벤트 발생 시 호출됩니다.
   /// Called when the volume up event occurs.
   void onVolumeUp() {}

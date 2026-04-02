@@ -6,7 +6,7 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyTTSDelegate implements BarrierFreeDelegate {
+class MyTTSDelegate extends BarrierFreeDelegate {
   @override
   bool get isBarrierFreeModeEnabled => true;
 
