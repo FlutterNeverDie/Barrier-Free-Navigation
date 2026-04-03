@@ -1,3 +1,10 @@
+## 1.0.6
+
+* Added a dedicated "Android Setup" section to the `README.md` to guide users on how to disable the system focus highlight at the theme level (`styles.xml`).
+  (안드로이드 시스템 포커스 하이라이트를 테마 레벨(`styles.xml`)에서 비활성화할 수 있도록 `README.md`에 'Android Setup' 섹션을 추가했습니다.)
+* Re-implemented `FocusManager.instance.highlightStrategy` to `FocusHighlightStrategy.alwaysTouch` to ensure Flutter's internal focus indicators are hidden by default.
+  (플러터 내부의 포커스 인디케이터가 기본적으로 숨겨지도록 `highlightStrategy`를 다시 적용했습니다.)
+
 ## 1.0.5
 
 * Disabled the default Android system focus highlight (Ripple effect/Focus indicator) to ensure a consistent barrier-free UI experience.
