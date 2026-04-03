@@ -22,6 +22,7 @@ allprojects {
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.flutterneverdie.barrier_free_navigation'
     compileSdkVersion 33
 
     compileOptions {

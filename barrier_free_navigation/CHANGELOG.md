@@ -1,3 +1,8 @@
+## 1.0.4
+
+* Added `namespace` to `android/build.gradle` for compatibility with Android Gradle Plugin 8.0 and above.
+  (최신 안드로이드 그래들 플러그인(AGP 8.0+) 환경에서의 빌드 호환성을 위해 `namespace` 설정을 추가했습니다.)
+
 ## 1.0.3
 
 * Converted the package from a pure Dart package to a Flutter Plugin to support native platform interactions.
