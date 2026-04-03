@@ -1,3 +1,8 @@
+## 1.0.6
+
+* Forced the `FocusManager.instance.highlightStrategy` to `FocusHighlightStrategy.alwaysTouch` within the initialization process. This completely eliminates the unwanted focus borders (yellow/green/blue) that Flutter draws when a physical keyboard is detected.
+  (초기화 과정에서 플러터의 포커스 하이라이트 전략을 강제로 '항상 터치'로 고정했습니다. 이를 통해 물리 키보드 감지 시 플러터 엔진이 그리는 모든 형태의 포커스 테두리(노란색/연두색 등)를 완벽하게 제거했습니다.)
+
 ## 1.0.5
 
 * Disabled the default Android system focus highlight (Ripple effect/Focus indicator) to ensure a consistent barrier-free UI experience.
