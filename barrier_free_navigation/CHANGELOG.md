@@ -1,3 +1,8 @@
+## 1.0.5
+
+* Disabled the default Android system focus highlight (Ripple effect/Focus indicator) to ensure a consistent barrier-free UI experience.
+  (안드로이드 시스템이 키보드 포커스 시 자동으로 그리는 기본 하이라이트(테두리 등)를 비활성화하여, 일관성 있는 배리어프리 사용자 경험을 제공하도록 개선했습니다.)
+
 ## 1.0.4
 
 * Added `namespace` to `android/build.gradle` for compatibility with Android Gradle Plugin 8.0 and above.

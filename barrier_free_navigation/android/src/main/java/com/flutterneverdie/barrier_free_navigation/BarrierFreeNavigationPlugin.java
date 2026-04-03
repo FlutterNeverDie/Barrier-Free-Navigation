@@ -1,8 +1,10 @@
 package com.flutterneverdie.barrier_free_navigation;
 
 import android.app.Activity;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import androidx.annotation.NonNull;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -43,8 +45,15 @@ public class BarrierFreeNavigationPlugin implements FlutterPlugin, MethodCallHan
         activity.runOnUiThread(() -> {
             try {
                 Log.d(TAG, "키보드 포커스 요청 시도");
-                activity.getWindow().getDecorView().setFocusableInTouchMode(true);
-                activity.getWindow().getDecorView().requestFocus();
+                View decorView = activity.getWindow().getDecorView();
+                
+                // 안드로이드 8.0(API 26) 이상에서 시스템 기본 포커스 하이라이트(테두리) 비활성화
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    decorView.setDefaultFocusHighlightEnabled(false);
+                }
+
+                decorView.setFocusableInTouchMode(true);
+                decorView.requestFocus();
                 
                 // 100ms 지연 후 엔터키(DOWN) 발생
                 activity.getWindow().getDecorView().postDelayed(() -> {
