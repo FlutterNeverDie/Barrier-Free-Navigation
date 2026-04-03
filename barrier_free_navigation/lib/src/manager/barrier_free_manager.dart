@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/barrier_free_delegate.dart';
@@ -9,6 +10,9 @@ import '../models/focus_group_config.dart';
 class BarrierFreeManager with ChangeNotifier {
   static final BarrierFreeManager instance = BarrierFreeManager._();
   BarrierFreeManager._();
+
+  static const MethodChannel _channel =
+      MethodChannel('barrier_free_navigation/init');
 
   BarrierFreeDelegate? _delegate;
   BFKeyboardConfig? _config;
@@ -23,6 +27,7 @@ class BarrierFreeManager with ChangeNotifier {
   void initialize({
     required BarrierFreeDelegate delegate,
     required BFKeyboardConfig config,
+    bool requestInitialFocus = true,
   }) {
     if (_isInitialized) return;
     _delegate = delegate;
@@ -35,7 +40,25 @@ class BarrierFreeManager with ChangeNotifier {
     });
 
     _isInitialized = true;
+
+    // 안드로이드 하드웨어 키보드 초기 인식을 위한 엔터키 킥스타트 시뮬레이션
+    if (requestInitialFocus && Platform.isAndroid) {
+      _requestKeyboardFocus();
+    }
+
     notifyListeners();
+  }
+
+  /// 안드로이드 시스템에 키보드 포커스 및 초기 상호작용(엔터키)을 강제로 요청합니다.
+  Future<void> _requestKeyboardFocus() async {
+    try {
+      final result = await _channel.invokeMethod('requestKeyboardFocus');
+      if (_delegate?.isDebugEnabled == true) {
+        debugPrint('[BarrierFreeManager] $result');
+      }
+    } on PlatformException catch (e) {
+      debugPrint('[BarrierFreeManager] Failed to request focus: ${e.message}');
+    }
   }
 
   /// 등록된 키보드 설정 정보

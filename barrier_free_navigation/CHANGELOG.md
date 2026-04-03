@@ -1,3 +1,12 @@
+## 1.0.3
+
+* Converted the package from a pure Dart package to a Flutter Plugin to support native platform interactions.
+  (순수 다트 패키지에서 네이티브 플랫폼 연동을 지원하는 플러터 플러그인(Plugin)으로 전환했습니다.)
+* Implemented Android-specific keyboard focus 'kickstart' logic to trigger initial physical key recognition.
+  (일부 안드로이드 환경에서 물리 키보드 인식이 지연되던 이슈를 해결하기 위해 초기 킥스타트 로직을 도입했습니다.)
+* Updated `BarrierFreeManager.initialize` with an optional `requestInitialFocus` flag (defaulting to `true` on Android).
+  (`BarrierFreeManager.initialize` 메서드에 `requestInitialFocus` 옵션을 추가하여 초기 포커스 요청 여부를 제어할 수 있도록 했습니다. (안드로이드 기본값: true))
+
 ## 1.0.2
 
 * Added `ChangeNotifier` support to `BarrierFreeManager` for better state observation.
