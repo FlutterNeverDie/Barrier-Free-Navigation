@@ -41,9 +41,6 @@ class BarrierFreeManager with ChangeNotifier {
 
     _isInitialized = true;
 
-    // 플러터 프레임워크 레벨에서 키보드 감지 시 그리는 포커스 하이라이트(테두리)를 강제 비활성화합니다.
-    FocusManager.instance.highlightStrategy = FocusHighlightStrategy.alwaysTouch;
-
     // 안드로이드 하드웨어 키보드 초기 인식을 위한 엔터키 킥스타트 시뮬레이션
     if (requestInitialFocus && Platform.isAndroid) {
       _requestKeyboardFocus();
