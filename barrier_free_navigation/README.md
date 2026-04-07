@@ -15,7 +15,7 @@ Flutter를 위한 고도화된 3단계 **배리어 프리(Barrier-Free)** 키보
 
 ### 🌟 주요 특징
 - **계층적 내비게이션 (3-Tier)**: 화면(Route) -> 영역(Group) -> 아이템(Item) 단위로 포커스를 관리합니다.
-- **포커스 유지 최적화 (v1.1.0+)**: 화면이 리빌드되어도 사용자가 현재 보고 있던 포커스 위치를 기억하고 유지합니다.
+- **포커스 유지 최적화 (v1.1.1+)**: 화면이 리빌드되어도 사용자가 현재 보고 있던 포커스 위치를 기억하고 유지합니다.
 - **통합 TTS(음성 안내) 지원**: 포커스가 이동할 때마다 별도의 추가 코드 없이 설정된 안내 문구가 자동으로 낭독됩니다.
 - **고도화된 커스터마이징**: 포커스 테두리 색상, 굵기, 키보드 매핑 등을 자유롭게 설정할 수 있습니다.
 - **키오스크 완벽 대응**: 안드로이드 시스템 특유의 불필요한 포커스 하이라이트를 제거하는 가이드를 포함합니다.
@@ -187,7 +187,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
 - **단일 자식 구역 (`isSingleChild`)**: 
   장바구니 버튼처럼 구역 내에 아이템이 하나뿐이라면 `FocusGroupConfig(focusNode: node, isSingleChild: true)`를 설정하세요. 구역에 진입하자마자 자동으로 버튼에 포커스가 잡혀 훨씬 편리합니다.
   
-- **포커스 인덱스 보존 (v1.1.0 신기능)**: 
+- **포커스 인덱스 보존 (v1.1.1 신기능)**: 
   화면 안의 데이터가 바뀌어 리빌드(setState)가 발생해도, 사용자가 보고 있던 포커스 번호가 0번으로 초기화되지 않고 그대로 유지됩니다.
 
 - **볼륨 및 커스텀 키**: 
@@ -208,7 +208,7 @@ Groups items into logical sections. Users navigate between areas using **Up/Down
 ### Tier 3: Item Level (`BFFocusItem`)
 Individual focusable elements (buttons, etc.). Users navigate within an area using **Left/Right** keys.
 
-### Key Optimization (v1.1.0)
+### Key Optimization (v1.1.1)
 The focus index is now preserved during widget rebuilds if the route remains active, preventing the focus from "jumping" back to the first item unexpectedly.
 
 ---

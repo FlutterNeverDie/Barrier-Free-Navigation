@@ -1,13 +1,14 @@
+## 1.1.1
+
+* **[Optimization]** `registerFocusGroups` 안정성 개선: 이미 등록된 라우트가 재호출될 경우 스택 순서를 변경하지 않도록 수정하여, 백그라운드 화면 리빌드 시 포커스 스택이 뒤섞이거나 인덱스가 0으로 초기화되는 버그를 해결했습니다.
+* **[Documentation]** `README.md` 한국어 가이드 대폭 강화 (3계층 아키텍처 설명, 안드로이드 전용 `styles.xml` 설정 가이드 추가 등).
+* **[Optimization]** Enhanced `registerFocusGroups` stability: Prevents focus stack re-ordering during background widget rebuilds, ensuring focus index and active route integrity.
+* **[Documentation]** Significantly improved Documentation (Korean focused) with detailed setup guides and Android-specific configuration.
+
 ## 1.0.8
 
-*   Improved README.md with more detailed code examples and customization guides.
-*   [KR] 상세한 사용 예시 및 테마 커스터마이징 가이드를 포함하여 `README.md` 문서를 개선했습니다.
-
-## 1.1.0
-*   **[Optimization]** `registerFocusGroups` 최적화: 이미 최상단(활성 상태)인 라우트가 재등록 될 때 포커스 인덱스가 0으로 초기화되는 현상을 수정하여 사용자 경험을 개선했습니다.
-*   **[Documentation]** 한국어 문서를 대폭 강화하고 구체적인 예제 코드를 추가했습니다.
-*   **[Optimization]** Optimized `registerFocusGroups` to prevent focus index reset when the same route is re-registered while already active.
-*   **[Documentation]** Significantly enhanced Korean documentation and added more detailed examples.
+* Improved README.md with more detailed code examples and customization guides.
+* [KR] 상세한 사용 예시 및 테마 커스터마이징 가이드를 포함하여 `README.md` 문서를 개선했습니다.
 
 ## 1.0.7
 
