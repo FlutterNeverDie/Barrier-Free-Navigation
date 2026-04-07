@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// 외부 의존성(TTS 엔진, 효과음 등)을 주입하기 위한 추상 델리게이트 인터페이스
 /// Abstract delegate interface to inject external dependencies (TTS engine, sound effects, etc.)
 abstract class BarrierFreeDelegate {
@@ -36,4 +38,12 @@ abstract class BarrierFreeDelegate {
   /// 커스텀 단축키 2 입력 시 호출됩니다.
   /// Called when custom shortcut key 2 is pressed.
   void onCustomKey2() {}
+
+  /// 개별 포커스 아이템의 테두리 색상. 기본값은 파란색(0xFF2196F3)입니다.
+  /// Border color of individual focus items. Defaults to blue (0xFF2196F3).
+  Color get focusColor => const Color(0xFF2196F3);
+
+  /// 영역(그룹) 포커스의 테두리 색상. 기본값은 파란색(0xFF2196F3)입니다.
+  /// Border color for area (group) focus. Defaults to blue (0xFF2196F3).
+  Color get areaFocusColor => const Color(0xFF2196F3);
 }

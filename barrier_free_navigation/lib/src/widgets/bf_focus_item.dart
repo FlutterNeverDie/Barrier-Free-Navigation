@@ -164,7 +164,8 @@ class _BFFocusItemState extends State<BFFocusItem> {
       child: IgnorePointer(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue, width: 2),
+            border: Border.all(
+                color: BarrierFreeManager.instance.focusColor, width: 2),
             borderRadius: BorderRadius.circular(8),
           ),
         ),

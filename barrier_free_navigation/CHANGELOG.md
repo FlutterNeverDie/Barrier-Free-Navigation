@@ -1,3 +1,10 @@
+## 1.0.7
+
+* Added `focusColor` and `areaFocusColor` to `BarrierFreeDelegate` and `BarrierFreeManager` for visual customization.
+* Updated `BFAreaFocusGroup` and `BFFocusItem` to support dynamic focus border colors (e.g., Theme aware).
+* [KR] 포커스 테두리 색상 커스터마이징 기능 추가 (BarrierFreeDelegate를 통해 다크/라이트 모드 등 동적 색상 대응)
+* [KR] 영역(Area) 및 개별 아이템(Item)의 테두리 색상을 매니저를 통해 중앙 제어하도록 개선
+
 ## 1.0.6
 
 * Added a dedicated "Android Setup" section to the `README.md` to guide users on how to disable the system focus highlight at the theme level (`styles.xml`).

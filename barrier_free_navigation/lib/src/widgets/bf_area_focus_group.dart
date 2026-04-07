@@ -114,10 +114,10 @@ class _BFAreaFocusGroupState extends State<BFAreaFocusGroup> {
       child: IgnorePointer(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color(0xFF2196F3),
-              width: 3,
-            ),
+          border: Border.all(
+            color: BarrierFreeManager.instance.areaFocusColor,
+            width: 3,
+          ),
           ),
         ),
       ),

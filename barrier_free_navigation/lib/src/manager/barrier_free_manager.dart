@@ -112,6 +112,15 @@ class BarrierFreeManager with ChangeNotifier {
   bool get isBarrierFreeModeEnabled =>
       _delegate?.isBarrierFreeModeEnabled ?? false;
 
+  /// 개별 포커스 아이템의 테두리 색상
+  /// Border color of individual focus items
+  Color get focusColor => _delegate?.focusColor ?? const Color(0xFF2196F3);
+
+  /// 영역(그룹) 포커스의 테두리 색상
+  /// Border color for area (group) focus
+  Color get areaFocusColor =>
+      _delegate?.areaFocusColor ?? const Color(0xFF2196F3);
+
   /// 특정 라우트(화면)에 대한 포커스 그룹 목록을 등록 및 스택에 푸시
   /// Register focus group list for a specific route (screen) and push to the stack
   void registerFocusGroups(String routeName, List<FocusGroupConfig> configs) {
