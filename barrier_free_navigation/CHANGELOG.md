@@ -3,6 +3,12 @@
 *   Improved README.md with more detailed code examples and customization guides.
 *   [KR] 상세한 사용 예시 및 테마 커스터마이징 가이드를 포함하여 `README.md` 문서를 개선했습니다.
 
+## 1.1.0
+*   **[Optimization]** `registerFocusGroups` 최적화: 이미 최상단(활성 상태)인 라우트가 재등록 될 때 포커스 인덱스가 0으로 초기화되는 현상을 수정하여 사용자 경험을 개선했습니다.
+*   **[Documentation]** 한국어 문서를 대폭 강화하고 구체적인 예제 코드를 추가했습니다.
+*   **[Optimization]** Optimized `registerFocusGroups` to prevent focus index reset when the same route is re-registered while already active.
+*   **[Documentation]** Significantly enhanced Korean documentation and added more detailed examples.
+
 ## 1.0.7
 
 * Added `focusColor` and `areaFocusColor` to `BarrierFreeDelegate` and `BarrierFreeManager` for visual customization.

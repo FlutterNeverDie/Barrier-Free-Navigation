@@ -125,18 +125,35 @@ class BarrierFreeManager with ChangeNotifier {
   /// Register focus group list for a specific route (screen) and push to the stack
   void registerFocusGroups(String routeName, List<FocusGroupConfig> configs) {
     if (configs.isEmpty) return;
-    _focusGroupConfigMap[routeName] = configs;
 
-    // 스택의 최상단에서 관리하기 위해 기존 항목이 있다면 제거
-    // Remove if it exists to manage it at the top of the stack
-    if (_focusKeyStack.contains(routeName)) {
+    // 이미 등록되어 있는지 확인
+    final bool isAlreadyRegistered = _focusGroupConfigMap.containsKey(routeName);
+
+    if (isAlreadyRegistered) {
+      // 1. 이미 최상단(활성 화면)에 등록되어 있는 경우 -> 설정만 갱신하고 리턴 (포커스 유지)
+      if (_focusKeyStack.isNotEmpty && _focusKeyStack.last == routeName) {
+        _focusGroupConfigMap[routeName] = configs;
+        if (_delegate?.isDebugEnabled == true) {
+          debugPrint(
+              '[BarrierFreeManager] Route already at top, skipping re-init: $routeName');
+        }
+        return;
+      }
+
+      // 2. 등록은 되어 있으나 최상단은 아닌 경우 (다른 화면에서 돌아온 상황 등) -> 최상단으로 이동
       _focusKeyStack.remove(routeName);
+      _focusKeyStack.add(routeName);
+    } else {
+      // 3. 완전히 신규 등록인 경우 -> 스택에 추가
+      _focusKeyStack.add(routeName);
     }
-    _focusKeyStack.add(routeName);
+
+    // 설정값 저장 및 인덱스 초기화
+    _focusGroupConfigMap[routeName] = configs;
     _currentGroupIndex = 0;
 
     if (_delegate?.isDebugEnabled == true) {
-      debugPrint('[BarrierFreeManager] Route registered: $routeName');
+      debugPrint('[BarrierFreeManager] Route registered/activated: $routeName');
     }
 
     notifyListeners();
