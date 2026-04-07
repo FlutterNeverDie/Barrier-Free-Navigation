@@ -1,3 +1,8 @@
+## 1.0.8
+
+*   Improved README.md with more detailed code examples and customization guides.
+*   [KR] 상세한 사용 예시 및 테마 커스터마이징 가이드를 포함하여 `README.md` 문서를 개선했습니다.
+
 ## 1.0.7
 
 * Added `focusColor` and `areaFocusColor` to `BarrierFreeDelegate` and `BarrierFreeManager` for visual customization.
