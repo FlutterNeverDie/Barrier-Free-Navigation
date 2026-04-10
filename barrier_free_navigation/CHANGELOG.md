@@ -1,3 +1,8 @@
+## 1.1.2
+
+* **[Feature]** Added `previousRouteName` getter to `BarrierFreeManager`. This allows developers to check the previous route name in the navigation stack (useful for breadcrumbs or back-navigation logic).
+* **[KR]** `BarrierFreeManager`에 `previousRouteName` 게터 추가: 현재 활성화된 화면 바로 이전의 라우트 이름을 확인할 수 있는 기능을 추가했습니다. (히스토리 추적 및 네비게이션 분기 로직에 활용 가능)
+
 ## 1.1.1
 
 * **[Optimization]** `registerFocusGroups` 안정성 개선: 이미 등록된 라우트가 재호출될 경우 스택 순서를 변경하지 않도록 수정하여, 백그라운드 화면 리빌드 시 포커스 스택이 뒤섞이거나 인덱스가 0으로 초기화되는 버그를 해결했습니다.

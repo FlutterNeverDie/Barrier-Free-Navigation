@@ -73,6 +73,13 @@ class BarrierFreeManager with ChangeNotifier {
   String? get currentRouteName =>
       _focusKeyStack.isNotEmpty ? _focusKeyStack.last : null;
 
+  /// 이전 라우트 이름을 반환합니다.
+  /// 네비게이션 스택에 이전 라우트가 없으면 null을 반환합니다.
+  /// Returns the previous route name.
+  /// Returns null if there is no previous route in the navigation stack.
+  String? get previousRouteName =>
+      _focusKeyStack.length >= 2 ? _focusKeyStack[_focusKeyStack.length - 2] : null;
+
   /// 현재 선택된 포커스 그룹의 인덱스를 반환합니다.
   /// Returns the current group index.
   int get currentGroupIndex => _currentGroupIndex;
