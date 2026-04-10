@@ -100,6 +100,18 @@ class BarrierFreeManager with ChangeNotifier {
   /// Current managed route name stack (read-only)
   List<String> get focusKeyStack => List.unmodifiable(_focusKeyStack);
 
+  /// 현재 등록된 모든 라우트 리스트를 반환합니다.
+  /// Returns a list of all currently registered routes.
+  List<String> get registeredRoutes => List.unmodifiable(_focusKeyStack);
+
+  /// 현재 활성 라우트 및 스택 정보를 콘솔에 출력합니다. (디버깅용)
+  /// Prints the current active route and stack information to the console. (For debugging)
+  void printDebugStatus() {
+    debugPrint(
+        '[BarrierFreeManager] Current Route: ${currentRouteName ?? 'None'}');
+    debugPrint('[BarrierFreeManager] Registered Routes: $_focusKeyStack');
+  }
+
   /// TTS를 통한 음성 출력 요청
   /// Request voice output via TTS
   void speak(String text, {bool isFilter = false}) {

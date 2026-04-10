@@ -1,3 +1,11 @@
+## 1.1.3
+
+* **[Feature]** Added `registeredRoutes` getter to `BarrierFreeManager` to retrieve all currently managed route names.
+* **[Feature]** Added `printDebugStatus()` function to `BarrierFreeManager` for quick console debugging of the current route and stack.
+* **[KR]** `BarrierFreeManager` 기능 추가: 
+    * `registeredRoutes`: 현재 스택에 있는 모든 라우트 리스트를 반환하는 게터를 추가했습니다.
+    * `printDebugStatus()`: 현재 활성화된 라우트와 전체 스택 상태를 콘솔에 출력하는 디버그용 함수를 추가했습니다.
+
 ## 1.1.2
 
 * **[Feature]** Added `previousRouteName` getter to `BarrierFreeManager`. This allows developers to check the previous route name in the navigation stack (useful for breadcrumbs or back-navigation logic).
