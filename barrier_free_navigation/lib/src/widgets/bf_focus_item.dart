@@ -19,6 +19,10 @@ class BFFocusItem extends StatefulWidget {
   /// Callback executed when the user presses an action key like Confirm (Enter)
   final VoidCallback? onTap;
 
+  /// 사용자가 아이템을 길게 눌렀을 때 실행될 콜백
+  /// Callback executed when the user long presses the item
+  final VoidCallback? onLongPress;
+
   /// 같은 TTS 메시지를 반복 중복해서 읽지 않도록 필터링할지 여부
   /// Whether to filter TTS so that the exact same message is not read repeatedly
   final bool isFilterTts;
@@ -49,6 +53,7 @@ class BFFocusItem extends StatefulWidget {
     this.ttsMsg,
     this.decoration = const BoxDecoration(),
     this.onTap,
+    this.onLongPress,
     this.isFilterTts = false,
     this.autoFocus = false,
     this.inkBorderRadius = 16.0,
@@ -124,6 +129,15 @@ class _BFFocusItemState extends State<BFFocusItem> {
     }
   }
 
+  void _handleLongPress() {
+    if (widget.onLongPress != null) {
+      // 길게 누르기 시에도 클릭 사운드를 재생할지 여부는 정책에 따라 다를 수 있으나,
+      // 사용자 경험을 위해 일단 추가합니다. (필요 시 제거 가능)
+      BarrierFreeManager.instance.playClickSound();
+      widget.onLongPress!();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Focus(
@@ -145,6 +159,7 @@ class _BFFocusItemState extends State<BFFocusItem> {
                         borderRadius:
                             BorderRadius.circular(widget.inkBorderRadius),
                         onTap: _handleTap,
+                        onLongPress: widget.onLongPress != null ? _handleLongPress : null,
                         child: widget.child,
                       ),
                     ),

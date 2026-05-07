@@ -1,3 +1,8 @@
+## 1.1.4
+
+* **[Feature]** Added `onLongPress` callback to `BFFocusItem`.
+* **[KR]** `BFFocusItem` 기능 추가: `onLongPress` 콜백을 추가하여 아이템을 길게 눌렀을 때의 동작을 정의할 수 있도록 했습니다.
+
 ## 1.1.3
 
 * **[Feature]** Added `registeredRoutes` getter to `BarrierFreeManager` to retrieve all currently managed route names.
