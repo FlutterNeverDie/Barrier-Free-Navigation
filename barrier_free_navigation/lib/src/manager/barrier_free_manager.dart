@@ -22,6 +22,16 @@ class BarrierFreeManager with ChangeNotifier {
   int _currentGroupIndex = 0;
   bool _isInitialized = false;
 
+  /// 절대 해제되지 않는 보호 라우트 (예: 메인 스크린)
+  /// Protected routes that cannot be unregistered (e.g., main screen)
+  final Set<String> _protectedRoutes = {};
+
+  /// 보호 라우트 등록 (unregister 시 무시됨, 스택 0번에 고정)
+  /// Register a protected route (ignored on unregister, fixed at stack index 0)
+  void addProtectedRoute(String routeName) {
+    _protectedRoutes.add(routeName);
+  }
+
   /// 매니저 초기화. 구성 요소 및 콜백을 등록합니다.
   /// Initializes the manager. Registers configurations and callbacks.
   void initialize({
@@ -165,7 +175,12 @@ class BarrierFreeManager with ChangeNotifier {
     }
 
     // 2. 신규 등록인 경우 -> 스택에 추가하고 인덱스 초기화
-    _focusKeyStack.add(routeName);
+    // 보호 라우트는 항상 스택 0번에 고정
+    if (_protectedRoutes.contains(routeName)) {
+      _focusKeyStack.insert(0, routeName);
+    } else {
+      _focusKeyStack.add(routeName);
+    }
     _focusGroupConfigMap[routeName] = configs;
     _currentGroupIndex = 0;
 
@@ -177,8 +192,18 @@ class BarrierFreeManager with ChangeNotifier {
   }
 
   /// 특정 라우트(화면)에 대한 포커스 그룹 목록을 해제
+  /// 보호 라우트는 해제되지 않음
   /// Unregister focus group list for a specific route
+  /// Protected routes cannot be unregistered
   void unregisterFocusGroups(String routeName) {
+    // 보호 라우트는 절대 제거하지 않음
+    if (_protectedRoutes.contains(routeName)) {
+      if (_delegate?.isDebugEnabled == true) {
+        debugPrint('[BarrierFreeManager] Protected route cannot be unregistered: $routeName');
+      }
+      return;
+    }
+
     _focusGroupConfigMap.remove(routeName);
     _focusKeyStack.remove(routeName);
     _currentGroupIndex = 0;
